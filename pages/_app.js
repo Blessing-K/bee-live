@@ -1,5 +1,12 @@
-import "@/styles/globals.css";
+import '../styles/globals.css';
+import { CoursesProvider } from "../context/CoursesContext";
 
-export default function App({ Component, pageProps }) {
-  return <Component {...pageProps} />;
+function MyApp({ Component, pageProps }) {
+  return (
+    <CoursesProvider>
+      <Component {...pageProps} />
+    </CoursesProvider>
+  );
 }
+
+export default MyApp;
