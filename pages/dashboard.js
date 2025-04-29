@@ -38,7 +38,7 @@ export default function Dashboard() {
   return (
     <Layout>
       <h1>Welcome, {username}!</h1>
-      <p>Let's improve your academic performance today </p>
+      <p>Let&apos;s improve your academic performance today </p>
       <h2>Courses Needing Most Attention:</h2>
       <div className="cards-grid">
         {weakCourses.length ? (

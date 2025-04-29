@@ -9,7 +9,7 @@ export default function Courses() {
   return (
     <Layout>
       <h1>My Courses</h1>
-      <p>Manage and track your academic courses 📚</p>
+      <p>Manage and track your academic courses</p>
 
       <CourseForm addCourse={addCourse} />
 
