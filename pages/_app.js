@@ -1,12 +1,14 @@
-import '../styles/globals.css';
-import { CoursesProvider } from "../context/CoursesContext";
+import '@/styles/globals.css';
+import { Amplify } from 'aws-amplify';
+import awsExports from '../aws-exports';
+import { CoursesProvider } from '../context/CoursesContext';
 
-function MyApp({ Component, pageProps }) {
+Amplify.configure(awsExports); 
+
+export default function App({ Component, pageProps }) {
   return (
     <CoursesProvider>
       <Component {...pageProps} />
     </CoursesProvider>
   );
 }
-
-export default MyApp;

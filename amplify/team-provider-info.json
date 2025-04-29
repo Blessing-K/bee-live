@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-beelive-dev-de4e8-authRole",
+      "UnauthRoleArn": "arn:aws:iam::403688987275:role/amplify-beelive-dev-de4e8-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::403688987275:role/amplify-beelive-dev-de4e8-authRole",
+      "Region": "ca-central-1",
+      "DeploymentBucketName": "amplify-beelive-dev-de4e8-deployment",
+      "UnauthRoleName": "amplify-beelive-dev-de4e8-unauthRole",
+      "StackName": "amplify-beelive-dev-de4e8",
+      "StackId": "arn:aws:cloudformation:ca-central-1:403688987275:stack/amplify-beelive-dev-de4e8/a9693710-2494-11f0-948d-029be8f13829",
+      "AmplifyAppId": "d172az42w9hbk7"
+    },
+    "categories": {
+      "auth": {
+        "beelive4b91b5fd": {}
+      }
+    }
+  }
+}

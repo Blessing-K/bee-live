@@ -1,18 +1,45 @@
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
 import { useCourses } from "../context/CoursesContext";
 import DashboardCourseCard from "../components/DashboardCourseCard";
 import Layout from "@/components/Layout";
 
 export default function Dashboard() {
+  const router = useRouter();
   const { courses } = useCourses();
-  const weakCourses = courses.filter((course) => course.score < 3);
+  const [username, setUsername] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        await fetchAuthSession({ forceRefresh: true });
+        
+        const user = await getCurrentUser();
+        setUsername(user.username);
+      } catch (error) {
+        console.error('Auth failed:', error);
+        router.push('/login?redirect=/dashboard');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkAuth();
+  }, [router]);
+
+  if (loading) {
+    return <Layout><p>Loading session...</p></Layout>;
+  }
+
+  const weakCourses = courses.filter((course) => course.score <= 3);
 
   return (
     <Layout>
-      <h1>Welcome, Student!</h1>
-      <p>Let's improve your academic performance today 🚀</p>
-
+      <h1>Welcome, {username}!</h1>
+      <p>Let's improve your academic performance today </p>
       <h2>Courses Needing Most Attention:</h2>
-
       <div className="cards-grid">
         {weakCourses.length ? (
           weakCourses.map((course, index) => (
@@ -23,5 +50,6 @@ export default function Dashboard() {
         )}
       </div>
     </Layout>
+
   );
 }
