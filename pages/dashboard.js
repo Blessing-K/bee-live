@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import { signOut } from 'aws-amplify/auth';
+import { signOut, getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
 import { useRouter } from 'next/router';
-import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
 import { useCourses } from "../context/CoursesContext";
 import DashboardCourseCard from "../components/DashboardCourseCard";
 import Layout from "@/components/Layout";
@@ -10,7 +9,30 @@ export default function Dashboard() {
   const router = useRouter();
   const { courses } = useCourses();
   const [username, setUsername] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [authChecked, setAuthChecked] = useState(false); // changed from loading
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        await fetchAuthSession({ forceRefresh: true });
+        const user = await getCurrentUser();
+        const name = user.username;
+        setUsername(name.charAt(0).toUpperCase() + name.slice(1));
+      } catch (error) {
+        router.replace('/login'); // faster than push, avoids history entry
+      } finally {
+        setAuthChecked(true); // signal that auth check is done
+      }
+    };
+
+    checkAuth();
+  }, [router]);
+
+  if (!authChecked) {
+    return null; // don't render anything at all until auth check is done
+  }
+
+  const weakCourses = courses.filter((course) => course.score <= 3);
 
   const handleLogout = async () => {
     if (window.confirm('Are you sure you want to sign out?')) {
@@ -23,41 +45,11 @@ export default function Dashboard() {
     }
   };
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        await fetchAuthSession({ forceRefresh: true });
-        const user = await getCurrentUser();
-        const name = user.username;
-        setUsername(name.charAt(0).toUpperCase() + name.slice(1));
-      } catch (error) {
-        console.error('Auth failed:', error);
-        router.push('/login?redirect=/dashboard');
-      } finally {
-        setLoading(false);
-      }
-    };
-  
-    checkAuth();
-  }, [router]);
-  
-
-  if (loading) {
-    return <Layout><p>Loading session...</p></Layout>;
-  }
-
-  const weakCourses = courses.filter((course) => course.score <= 3);
-
   return (
     <Layout>
       <h1>Welcome, {username}!</h1>
-      <button 
-        onClick={handleLogout}
-        className="logout-button"
-      >
-        Sign Out
-      </button>
-      <p>Let&apos;s improve your academic performance today </p>
+      <button onClick={handleLogout} className="logout-button">Sign Out</button>
+      <p>Let's improve your academic performance today</p>
       <h2>Courses Needing Most Attention:</h2>
       <div className="cards-grid">
         {weakCourses.length ? (
@@ -69,6 +61,5 @@ export default function Dashboard() {
         )}
       </div>
     </Layout>
-
   );
 }
