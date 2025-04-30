@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'; // Add useEffect
-import { signIn, getCurrentUser } from 'aws-amplify/auth'; // Add getCurrentUser
+import { useState, useEffect } from 'react'; 
+import { signIn, getCurrentUser } from 'aws-amplify/auth'; 
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
@@ -10,12 +10,11 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  // Add this useEffect to check auth state on component mount
   useEffect(() => {
     async function checkAuth() {
       try {
         await getCurrentUser();
-        router.push('/dashboard'); // Redirect if already logged in
+        router.push('/dashboard'); 
       } catch (err) {
         // No user is logged in, proceed normally
       }

@@ -172,7 +172,7 @@ div {
   cursor: pointer;
   font-size: 0.9rem;
   transition: background 0.3s ease;
-  z-index: 1001; /* Above other content */
+  z-index: 1001; 
 }
 
 .logout-button:hover {
@@ -193,7 +193,7 @@ div {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 30px 30px; /* 🔥 Increase top/bottom (20px) and left/right (30px) */
+    padding: 30px 30px; 
     background-color: #111827;
   }
   

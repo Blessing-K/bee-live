@@ -27,9 +27,9 @@ export default function Dashboard() {
     const checkAuth = async () => {
       try {
         await fetchAuthSession({ forceRefresh: true });
-        
         const user = await getCurrentUser();
-        setUsername(user.username);
+        const name = user.username;
+        setUsername(name.charAt(0).toUpperCase() + name.slice(1));
       } catch (error) {
         console.error('Auth failed:', error);
         router.push('/login?redirect=/dashboard');
@@ -37,9 +37,10 @@ export default function Dashboard() {
         setLoading(false);
       }
     };
-
+  
     checkAuth();
   }, [router]);
+  
 
   if (loading) {
     return <Layout><p>Loading session...</p></Layout>;
