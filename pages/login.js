@@ -93,7 +93,7 @@ export default function Login() {
         </form>
 
         <p style={styles.footerText}>
-          Don't have an account?{' '}
+          Don&apos;t have an account?{' '}
           <Link href="/signup" style={styles.link}>Sign up</Link>
         </p>
       </div>
