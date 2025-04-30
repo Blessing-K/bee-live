@@ -49,7 +49,7 @@ export default function Dashboard() {
     <Layout>
       <h1>Welcome, {username}!</h1>
       <button onClick={handleLogout} className="logout-button">Sign Out</button>
-      <p>Let's improve your academic performance today</p>
+      <p>Let&apos;s improve your academic performance today</p>
       <h2>Courses Needing Most Attention:</h2>
       <div className="cards-grid">
         {weakCourses.length ? (
