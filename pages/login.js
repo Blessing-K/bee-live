@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { signIn } from 'aws-amplify/auth';
+import { useState, useEffect } from 'react'; // Add useEffect
+import { signIn, getCurrentUser } from 'aws-amplify/auth'; // Add getCurrentUser
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
@@ -10,12 +10,34 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
+  // Add this useEffect to check auth state on component mount
+  useEffect(() => {
+    async function checkAuth() {
+      try {
+        await getCurrentUser();
+        router.push('/dashboard'); // Redirect if already logged in
+      } catch (err) {
+        // No user is logged in, proceed normally
+      }
+    }
+    checkAuth();
+  }, [router]);
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
   
     try {
+      // Optional: Add a second check right before sign-in
+      try {
+        await getCurrentUser();
+        router.push('/dashboard');
+        return;
+      } catch (notAuthed) {
+        // Proceed with login if no user found
+      }
+
       const user = await signIn({
         username,
         password,
@@ -27,7 +49,9 @@ export default function Login() {
     } catch (error) {
       console.error('Login error:', error);
       setError(
-        error.name === 'UserNotConfirmedException'
+        error.name === 'UserNotFoundException'
+        ? 'Account not found. Please sign up first.'
+          :error.name === 'UserNotConfirmedException'
           ? 'Please confirm your email first.'
           : error.name === 'NotAuthorizedException'
           ? 'Invalid username or password.'

@@ -48,6 +48,7 @@ export default function Signup() {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
+          style={{ width: '100%', padding: '8px' }}
         />
         <input
           type="email"
@@ -55,6 +56,7 @@ export default function Signup() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          style={{ width: '100%', padding: '8px' }}
         />
         <input
           type="password"
@@ -63,15 +65,25 @@ export default function Signup() {
           onChange={(e) => setPassword(e.target.value)}
           required
           minLength={8}
+          style={{ width: '100%', padding: '8px' }}
         />
-        <button type="submit" disabled={isLoading}>
+        <button type="submit" disabled={isLoading} style={{
+            background: isLoading ? '#ccc' : '#0070f3',
+            color: 'white',
+            padding: '10px',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+          }}>
           {isLoading ? 'Signing up...' : 'Sign Up'}
         </button>
       </form>
 
-      <p style={{ textAlign: 'center', marginTop: '10px' }}>
-        Already have an account? <Link href="/login" style={{ color: '#0070f3' }}>Login</Link>
-      </p>
+        <div style={{ marginTop: '16px', textAlign: 'center' }}>
+            <p style={{ textAlign: 'center', marginTop: '10px' }}>
+                Already have an account? <Link href="/login" style={{ color: '#0070f3' }}>Login</Link>
+            </p>
+        </div>
     </div>
   );
 }

@@ -159,6 +159,26 @@ div {
   background-color: darkred;
 }
 
+/* Logout Button Styles */
+.logout-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #111827;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.3s ease;
+  z-index: 1001; /* Above other content */
+}
+
+.logout-button:hover {
+  background: #395fb1;
+}
+
 /* Mobile View */
 @media (max-width: 768px) {
   .layout {
