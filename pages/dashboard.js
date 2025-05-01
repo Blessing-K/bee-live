@@ -4,14 +4,14 @@ import { useRouter } from 'next/router';
 import { useCourses } from "../context/CoursesContext";
 import DashboardCourseCard from "../components/DashboardCourseCard";
 import Layout from "@/components/Layout";
-import Link from 'next/link'; // Add this import
+import Link from 'next/link'; 
 
 export default function Dashboard() {
   const router = useRouter();
   const { courses } = useCourses();
   const [username, setUsername] = useState('');
   const [authChecked, setAuthChecked] = useState(false);
-  const [activeTab, setActiveTab] = useState('dashboard'); // Add this state
+  const [activeTab, setActiveTab] = useState('dashboard'); 
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -46,7 +46,6 @@ export default function Dashboard() {
     }
   };
 
-  // Add this style object at the bottom of your file
   const styles = {
     header: {
       display: 'flex',
@@ -116,7 +115,7 @@ export default function Dashboard() {
           Dashboard
         </button>
         <button
-          onClick={() => router.push('/courses')} // Direct link to courses page
+          onClick={() => router.push('/courses')} 
           style={activeTab === 'courses' ? styles.activeTab : styles.tab}
         >
           My Courses

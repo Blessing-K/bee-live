@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Layout from "../components/Layout"; // Import Layout only, Sidebar is already inside Layout
+import Layout from "../components/Layout"; 
 
 export default function Goals() {
   const [goals, setGoals] = useState([]);
@@ -29,7 +29,7 @@ export default function Goals() {
   };
 
   return (
-    <Layout> {/* everything inside Layout */}
+    <Layout> 
       <h1>My Goals</h1>
       <p>Track and manage your academic goals 🎯</p>
 
