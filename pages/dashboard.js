@@ -4,12 +4,14 @@ import { useRouter } from 'next/router';
 import { useCourses } from "../context/CoursesContext";
 import DashboardCourseCard from "../components/DashboardCourseCard";
 import Layout from "@/components/Layout";
+import Link from 'next/link'; // Add this import
 
 export default function Dashboard() {
   const router = useRouter();
   const { courses } = useCourses();
   const [username, setUsername] = useState('');
-  const [authChecked, setAuthChecked] = useState(false); // changed from loading
+  const [authChecked, setAuthChecked] = useState(false);
+  const [activeTab, setActiveTab] = useState('dashboard'); // Add this state
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -19,17 +21,16 @@ export default function Dashboard() {
         const name = user.username;
         setUsername(name.charAt(0).toUpperCase() + name.slice(1));
       } catch (error) {
-        router.replace('/login'); // faster than push, avoids history entry
+        router.replace('/login');
       } finally {
-        setAuthChecked(true); // signal that auth check is done
+        setAuthChecked(true);
       }
     };
-
     checkAuth();
   }, [router]);
 
   if (!authChecked) {
-    return null; // don't render anything at all until auth check is done
+    return null;
   }
 
   const weakCourses = courses.filter((course) => course.score <= 3);
@@ -45,21 +46,112 @@ export default function Dashboard() {
     }
   };
 
+  // Add this style object at the bottom of your file
+  const styles = {
+    header: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: '1rem'
+    },
+    tabContainer: {
+      display: 'flex',
+      borderBottom: '1px solid #e2e8f0',
+      margin: '1.5rem 0'
+    },
+    tab: {
+      padding: '0.75rem 1rem',
+      background: 'none',
+      border: 'none',
+      cursor: 'pointer',
+      color: '#64748b'
+    },
+    activeTab: {
+      padding: '0.75rem 1rem',
+      borderBottom: '2px solid #3b82f6',
+      fontWeight: '600',
+      color: '#1e293b'
+    },
+    emptyState: {
+      textAlign: 'center',
+      padding: '2rem',
+      backgroundColor: '#f8fafc',
+      borderRadius: '0.5rem',
+      margin: '1.5rem 0'
+    },
+    ctaButton: {
+      padding: '0.75rem 1.5rem',
+      backgroundColor: '#3b82f6',
+      color: 'white',
+      border: 'none',
+      borderRadius: '0.5rem',
+      cursor: 'pointer',
+      marginTop: '1rem'
+    }
+  };
+
   return (
     <Layout>
-      <h1>Welcome, {username}!</h1>
-      <button onClick={handleLogout} className="logout-button">Sign Out</button>
-      <p>Let&apos;s improve your academic performance today</p>
-      <h2>Courses Needing Most Attention:</h2>
-      <div className="cards-grid">
-        {weakCourses.length ? (
-          weakCourses.map((course, index) => (
-            <DashboardCourseCard key={index} course={course} />
-          ))
-        ) : (
-          <p>No courses needing attention yet.</p>
-        )}
+      <div style={styles.header}>
+        <h1 style={{ fontSize: '1.5rem', margin: 0 }}>Welcome, {username}!</h1>
+        <button 
+          onClick={handleLogout} 
+          style={{
+            padding: '0.5rem 1rem',
+            backgroundColor: '#2973B2',
+            border: 'none',
+            borderRadius: '0.5rem',
+            cursor: 'pointer'
+          }}
+        >
+          Sign Out
+        </button>
       </div>
+
+      <div style={styles.tabContainer}>
+        <button
+          onClick={() => setActiveTab('dashboard')}
+          style={activeTab === 'dashboard' ? styles.activeTab : styles.tab}
+        >
+          Dashboard
+        </button>
+        <button
+          onClick={() => router.push('/courses')} // Direct link to courses page
+          style={activeTab === 'courses' ? styles.activeTab : styles.tab}
+        >
+          My Courses
+        </button>
+      </div>
+
+      {activeTab === 'dashboard' && (
+        <>
+          <p>Let&apos;s improve your academic performance today</p>
+          
+          <h2>Courses Needing Most Attention:</h2>
+          <div className="cards-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1rem' }}>
+            {weakCourses.length ? (
+              weakCourses.map((course, index) => (
+                <DashboardCourseCard key={index} course={course} />
+              ))
+            ) : (
+              <div style={styles.emptyState}>
+                <p>No courses needing attention yet</p>
+                {courses.length === 0 && (
+                  <>
+                    <p>Get started by adding your first course!</p>
+                    <button 
+                      onClick={() => router.push('/courses')}
+                      style={styles.ctaButton}
+                    >
+                      Add Courses
+                    </button>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+        </>
+      )}
     </Layout>
   );
 }

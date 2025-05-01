@@ -159,26 +159,6 @@ div {
   background-color: darkred;
 }
 
-/* Logout Button Styles */
-.logout-button {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: #111827;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: background 0.3s ease;
-  z-index: 1001; 
-}
-
-.logout-button:hover {
-  background: #395fb1;
-}
-
 /* Mobile View */
 @media (max-width: 768px) {
   .layout {
@@ -198,7 +178,7 @@ div {
   }
   
   .nav-links a {
-    font-size: 16px;
+    font-size: 0.7rem;
   }
 
   .logo {
@@ -217,5 +197,87 @@ div {
     margin-left: 0;
     padding: 20px;
     width: 100%;
+  }
+
+  .cards-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .sidebar a, .sidebar button {
+    white-space: nowrap;
+    padding: 0.5rem !important;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Courses Page Specific Mobile Styles */
+  .courses-page {
+    padding: 1rem;
+  }
+  
+  .courses-page h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .courses-page p {
+    margin-bottom: 1.5rem;
+    color: #6b7280;
+  }
+  
+  /* Course Form */
+  .course-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .course-form input {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+  }
+  
+  .course-form button {
+    width: 100%;
+    padding: 0.75rem;
+  }
+  
+  /* Course Cards */
+  .courses-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .course-card {
+    width: 100%;
+    padding: 1.25rem;
+    position: relative;
+  }
+  
+  .course-title {
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  
+  .score-inline {
+    display: block;
+    margin-left: 0;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+  
+  .delete-btn {
+    position: static;
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .course-input{
+    font-size: 12px;
   }
 }

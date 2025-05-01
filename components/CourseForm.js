@@ -21,12 +21,14 @@ export default function CourseForm() {
         placeholder="Course Name"
         value={courseName}
         onChange={(e) => setCourseName(e.target.value)}
+        className="course-input"
       />
       <input
         type="number"
         placeholder="Score"
         value={score}
         onChange={(e) => setScore(e.target.value)}
+        className="course-input"
       />
       <button type="submit" style={{ backgroundColor: "#3b82f6", color: "#fff" }}>
         + Add Course
