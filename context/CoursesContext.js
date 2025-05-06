@@ -6,7 +6,27 @@ export function CoursesProvider({ children }) {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const addCourse = async (courseName, score) => {
+  const loadUserCourses = async (userId) => {
+    try {
+      const response = await fetch("https://onhq6srh07.execute-api.ca-central-1.amazonaws.com/default/getUserCourses", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId }),
+      });
+
+      const data = await response.json();
+
+      if (Array.isArray(data)) {
+        setCourses(data);
+      } else {
+        console.error("Invalid data received:", data);
+      }
+    } catch (err) {
+      console.error("Error loading user courses:", err);
+    }
+  };
+
+  const addCourse = async (userId, courseName, score) => {
     setLoading(true);
     try {
       const response = await fetch("/api/generateAdvice", {
@@ -18,6 +38,17 @@ export function CoursesProvider({ children }) {
       const data = await response.json();
       let advice = data.advice || "No advice generated.";
       advice = advice.replace(/(\d+\.)/g, "\n$1");
+
+      await fetch("https://cqv4lis916.execute-api.ca-central-1.amazonaws.com/default/storeCourseAdvice", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId,
+          courseName,
+          score: parseInt(score),
+          advice,
+        }),
+      });
 
       const newCourse = {
         courseName,
@@ -38,7 +69,7 @@ export function CoursesProvider({ children }) {
   };
 
   return (
-    <CoursesContext.Provider value={{ courses, addCourse, deleteCourse, loading }}>
+    <CoursesContext.Provider value={{ courses, addCourse, deleteCourse, loading, loadUserCourses }}>
       {children}
     </CoursesContext.Provider>
   );

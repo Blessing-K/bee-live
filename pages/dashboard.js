@@ -8,18 +8,22 @@ import Link from 'next/link';
 
 export default function Dashboard() {
   const router = useRouter();
-  const { courses } = useCourses();
+  const { courses, loadUserCourses } = useCourses();
   const [username, setUsername] = useState('');
+  const [userId, setUserId] = useState('');
   const [authChecked, setAuthChecked] = useState(false);
   const [activeTab, setActiveTab] = useState('dashboard'); 
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        await fetchAuthSession({ forceRefresh: true });
+        const session = await fetchAuthSession({ forceRefresh: true });
         const user = await getCurrentUser();
         const name = user.username;
+        const sub = session.userSub;
         setUsername(name.charAt(0).toUpperCase() + name.slice(1));
+        setUserId(sub);
+        await loadUserCourses(sub);
       } catch (error) {
         router.replace('/login');
       } finally {
@@ -27,11 +31,13 @@ export default function Dashboard() {
       }
     };
     checkAuth();
-  }, [router]);
+  }, [router, loadUserCourses]);
 
   if (!authChecked) {
     return null;
   }
+
+  if (!authChecked) return null;
 
   const weakCourses = courses.filter((course) => course.score <= 3);
 

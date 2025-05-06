@@ -33,7 +33,6 @@ export default async function handler(req, res) {
 
     const rawAdvice = chatCompletion.choices[0]?.message?.content || "No advice returned.";
     
-    // 🔥 NEW: Inject real paragraph breaks
     const formattedAdvice = rawAdvice.replace(/(\d+\.\s)/g, '\n\n$1');
 
     console.log("Formatted Advice:", formattedAdvice);

@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { useCourses } from "../context/CoursesContext";
 
-export default function CourseForm() {
+export default function CourseForm({ userId }) {
   const [courseName, setCourseName] = useState("");
   const [score, setScore] = useState("");
   const { addCourse, loading } = useCourses();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!courseName || !score) return;
-    addCourse(courseName, score);
+    if (!courseName || !score || !userId) return;
+    addCourse(userId, courseName, score);
     setCourseName("");
     setScore("");
   };
