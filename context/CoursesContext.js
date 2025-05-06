@@ -8,7 +8,7 @@ export function CoursesProvider({ children }) {
 
   const loadUserCourses = async (userId) => {
     try {
-      const response = await fetch("https://onhq6srh07.execute-api.ca-central-1.amazonaws.com/default/getUserCourses", {
+      const response = await fetch(process.env.NEXT_PUBLIC_GET_COURSE_API, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId }),
@@ -39,7 +39,7 @@ export function CoursesProvider({ children }) {
       let advice = data.advice || "No advice generated.";
       advice = advice.replace(/(\d+\.)/g, "\n$1");
 
-      await fetch("https://cqv4lis916.execute-api.ca-central-1.amazonaws.com/default/storeCourseAdvice", {
+      await fetch(process.env.NEXT_PUBLIC_STORE_COURSE_API, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
