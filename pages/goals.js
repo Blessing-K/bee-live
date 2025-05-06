@@ -1,10 +1,27 @@
-import { useState } from "react";
-import Layout from "../components/Layout"; 
+import { useState, useEffect } from "react";
+import Layout from "../components/Layout";
 
 export default function Goals() {
   const [goals, setGoals] = useState([]);
   const [title, setTitle] = useState("");
   const [dueDate, setDueDate] = useState("");
+  const [hasMounted, setHasMounted] = useState(false);
+
+  // Load goals from localStorage after component mounts (client-side only)
+  useEffect(() => {
+    setHasMounted(true);
+    const savedGoals = localStorage.getItem("goals");
+    if (savedGoals) {
+      setGoals(JSON.parse(savedGoals));
+    }
+  }, []);
+
+  // Save goals to localStorage whenever they change (client-side only)
+  useEffect(() => {
+    if (hasMounted) {
+      localStorage.setItem("goals", JSON.stringify(goals));
+    }
+  }, [goals, hasMounted]);
 
   const addGoal = (e) => {
     e.preventDefault();
@@ -28,8 +45,14 @@ export default function Goals() {
     );
   };
 
+  const deleteGoal = (id) => {
+    if (hasMounted && window.confirm("Are you sure you want to delete this goal?")) {
+      setGoals((prevGoals) => prevGoals.filter((goal) => goal.id !== id));
+    }
+  };
+
   return (
-    <Layout> 
+    <Layout>
       <h1>My Goals</h1>
       <p>Track and manage your academic goals 🎯</p>
 
@@ -58,53 +81,71 @@ export default function Goals() {
         <button type="submit">Add Goal</button>
       </form>
 
-      <ul style={{ listStyleType: "none", paddingLeft: "0" }}>
-        {goals.map((goal) => (
-          <li
-            key={goal.id}
-            style={{
-              backgroundColor: "#fff",
-              padding: "20px",
-              borderRadius: "12px",
-              boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
-              marginBottom: "20px",
-              position: "relative",
-            }}
-          >
-            <h3
+      {hasMounted && (
+        <ul style={{ listStyleType: "none", paddingLeft: "0" }}>
+          {goals.map((goal) => (
+            <li
+              key={goal.id}
               style={{
-                textDecoration: goal.completed ? "line-through" : "none",
-                marginBottom: "10px",
+                backgroundColor: "#fff",
+                padding: "20px",
+                borderRadius: "12px",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+                marginBottom: "20px",
+                position: "relative",
               }}
             >
-              {goal.title}
-            </h3>
-            <p
-              style={{
-                color: "#6b7280",
-                fontSize: "14px",
-                marginBottom: "10px",
-              }}
-            >
-              Due: {new Date(goal.dueDate).toLocaleDateString()}
-            </p>
-            <button
-              onClick={() => toggleComplete(goal.id)}
-              style={{
-                backgroundColor: goal.completed ? "gray" : "green",
-                color: "white",
-                border: "none",
-                padding: "6px 12px",
-                borderRadius: "8px",
-                fontSize: "12px",
-                cursor: "pointer",
-              }}
-            >
-              {goal.completed ? "Undo" : "Mark Complete"}
-            </button>
-          </li>
-        ))}
-      </ul>
+              <h3
+                style={{
+                  textDecoration: goal.completed ? "line-through" : "none",
+                  marginBottom: "10px",
+                }}
+              >
+                {goal.title}
+              </h3>
+              <p
+                style={{
+                  color: "#6b7280",
+                  fontSize: "14px",
+                  marginBottom: "10px",
+                }}
+              >
+                Due: {new Date(goal.dueDate).toLocaleDateString()}
+              </p>
+              <div style={{ display: "flex", gap: "10px" }}>
+                <button
+                  onClick={() => toggleComplete(goal.id)}
+                  style={{
+                    backgroundColor: goal.completed ? "gray" : "green",
+                    color: "white",
+                    border: "none",
+                    padding: "6px 12px",
+                    borderRadius: "8px",
+                    fontSize: "12px",
+                    cursor: "pointer",
+                  }}
+                >
+                  {goal.completed ? "Undo" : "Mark Complete"}
+                </button>
+                <button
+                  onClick={() => deleteGoal(goal.id)}
+                  style={{
+                    backgroundColor: "red",
+                    color: "white",
+                    border: "none",
+                    padding: "6px 12px",
+                    borderRadius: "8px",
+                    fontSize: "12px",
+                    cursor: "pointer",
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
     </Layout>
   );
 }

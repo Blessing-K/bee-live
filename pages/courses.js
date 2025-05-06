@@ -15,7 +15,7 @@ export default function Courses() {
       try {
         await fetchAuthSession({ forceRefresh: true });
         const user = await getCurrentUser();
-        setUserId(user.userId || user.username); // depending on your Cognito setup
+        setUserId(user.userId || user.username); 
       } catch (error) {
         console.error("Auth error:", error);
       } finally {
@@ -25,7 +25,7 @@ export default function Courses() {
     fetchUserId();
   }, []);
 
-  if (!authChecked) return null; // avoid rendering before we have userId
+  if (!authChecked) return null; 
 
   return (
     <Layout>
@@ -34,7 +34,7 @@ export default function Courses() {
         <p>Manage and track your academic courses</p>
 
         <div className="course-form courses-grid">
-          <CourseForm userId={userId} addCourse={addCourse}/> 
+          <CourseForm userId={userId} addCourse={addCourse} />
         </div>
 
         <div className="cards-grid" style={{ marginTop: "30px" }}>
@@ -42,7 +42,8 @@ export default function Courses() {
             <CourseCard
               key={index}
               course={course}
-              onDelete={() => deleteCourse(index)}
+              userId={userId}
+              onDelete={deleteCourse}
             />
           ))}
         </div>

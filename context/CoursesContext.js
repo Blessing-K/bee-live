@@ -64,12 +64,30 @@ export function CoursesProvider({ children }) {
     }
   };
 
-  const deleteCourse = (index) => {
-    setCourses((prev) => prev.filter((_, i) => i !== index));
+  const deleteCourse = async (userId, courseName) => {
+    try {
+      const response = await fetch(process.env.NEXT_PUBLIC_DELETE_COURSE_API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, courseName }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete course");
+      }
+
+      setCourses((prevCourses) =>
+        prevCourses.filter((c) => c.courseName !== courseName)
+      );
+    } catch (err) {
+      console.error("Delete error:", err);
+    }
   };
 
   return (
-    <CoursesContext.Provider value={{ courses, addCourse, deleteCourse, loading, loadUserCourses }}>
+    <CoursesContext.Provider
+      value={{ courses, addCourse, deleteCourse, loading, loadUserCourses }}
+    >
       {children}
     </CoursesContext.Provider>
   );
