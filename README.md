@@ -14,7 +14,7 @@ To login:
 
 **Test Login credentials: Username: testuser  Password: MySecurePass123!**
 
-Link to App: https://bee-live.vercel.app/
+Link to App: https://bee-live.vercel.app
 
 
 
