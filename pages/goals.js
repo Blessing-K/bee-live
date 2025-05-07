@@ -7,7 +7,6 @@ export default function Goals() {
   const [dueDate, setDueDate] = useState("");
   const [hasMounted, setHasMounted] = useState(false);
 
-  // Load goals from localStorage after component mounts (client-side only)
   useEffect(() => {
     setHasMounted(true);
     const savedGoals = localStorage.getItem("goals");
@@ -16,7 +15,6 @@ export default function Goals() {
     }
   }, []);
 
-  // Save goals to localStorage whenever they change (client-side only)
   useEffect(() => {
     if (hasMounted) {
       localStorage.setItem("goals", JSON.stringify(goals));

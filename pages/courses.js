@@ -25,7 +25,13 @@ export default function Courses() {
     fetchUserId();
   }, []);
 
-  if (!authChecked) return null; 
+  if (!authChecked) return null;
+  
+  const sortedCourses = [...courses].sort((a, b) => {
+    const scoreA = a.score || 0;
+    const scoreB = b.score || 0;
+    return scoreA - scoreB; 
+  });
 
   return (
     <Layout>
@@ -38,7 +44,7 @@ export default function Courses() {
         </div>
 
         <div className="cards-grid" style={{ marginTop: "30px" }}>
-          {courses.map((course, index) => (
+          {sortedCourses.map((course, index) => (
             <CourseCard
               key={index}
               course={course}

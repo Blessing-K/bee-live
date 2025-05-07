@@ -39,7 +39,9 @@ export default function Dashboard() {
 
   if (!authChecked) return null;
 
-  const weakCourses = courses.filter((course) => course.score <= 3);
+  const weakCourses = courses
+  .filter((course) => (course.score || 0) <= 3)
+  .sort((a, b) => (a.score || 0) - (b.score || 0));
 
   const handleLogout = async () => {
     if (window.confirm('Are you sure you want to sign out?')) {
