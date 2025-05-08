@@ -2,7 +2,7 @@
 
 Application is under continuous improvement/development.
 
-Current basic functinalities permits users to add courses they want to improve on, rate the courses on a scale of 1-5. 
+Current basic functionalities permits users to add courses they want to improve on, rate the courses on a scale of 1-5. 
 
 The AI feature of the app generates tips/advice for improvements and ranks courses by difficulty to help users place more focus on their weakest courses
 
