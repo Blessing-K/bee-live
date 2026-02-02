@@ -2,12 +2,17 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Inter', 'Roboto', 'Arial', sans-serif;
+  font-family: "Inter", "Roboto", "Arial", sans-serif;
   background-color: #f9fafb;
   color: #111827;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: 700;
   margin-bottom: 10px;
 }
@@ -17,7 +22,8 @@ a {
   color: inherit;
 }
 
-input, button {
+input,
+button {
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #d1d5db;
@@ -110,13 +116,13 @@ div {
 }
 
 /* Course Card */
+/* Course Card */
 .course-card {
   background: white;
   padding: 20px;
   border-radius: 12px;
   border: 1px solid #e5e7eb;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  position: relative;
 }
 
 .course-title {
@@ -125,15 +131,13 @@ div {
 }
 
 .score-badge {
-  position: absolute;
-  top: 16px;
-  right: 16px;
+  display: inline-block;
   background-color: #dbeafe;
   color: #2563eb;
-  padding: 4px 8px;
-  border-radius: 8px;
-  font-size: 12px;
-  font-weight: bold;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
 }
 
 .score-inline {
@@ -143,20 +147,19 @@ div {
 }
 
 .delete-btn {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  background-color: red;
+  background-color: #ef4444;
   color: white;
   border: none;
-  padding: 4px 8px;
-  border-radius: 8px;
-  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 .delete-btn:hover {
-  background-color: darkred;
+  background-color: #dc2626;
 }
 
 /* Mobile View */
@@ -173,17 +176,17 @@ div {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 30px 30px; 
+    padding: 30px 30px;
     background-color: #111827;
   }
-  
+
   .nav-links a {
     font-size: 0.7rem;
   }
 
   .logo {
     margin-bottom: 0;
-    font-size: 22px; 
+    font-size: 22px;
   }
 
   .nav-links {
@@ -202,8 +205,9 @@ div {
   .cards-grid {
     grid-template-columns: 1fr !important;
   }
-  
-  .sidebar a, .sidebar button {
+
+  .sidebar a,
+  .sidebar button {
     white-space: nowrap;
     padding: 0.5rem !important;
   }
@@ -214,17 +218,17 @@ div {
   .courses-page {
     padding: 1rem;
   }
-  
+
   .courses-page h1 {
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
   }
-  
+
   .courses-page p {
     margin-bottom: 1.5rem;
     color: #6b7280;
   }
-  
+
   /* Course Form */
   .course-form {
     display: flex;
@@ -232,44 +236,44 @@ div {
     gap: 1rem;
     margin-bottom: 2rem;
   }
-  
+
   .course-form input {
     width: 100%;
     padding: 0.75rem;
     border-radius: 0.5rem;
   }
-  
+
   .course-form button {
     width: 100%;
     padding: 0.75rem;
   }
-  
+
   /* Course Cards */
   .courses-grid {
     display: flex;
     flex-direction: column;
     gap: 1rem;
   }
-  
+
   .course-card {
     width: 100%;
     padding: 1.25rem;
     position: relative;
   }
-  
+
   .course-title {
     font-size: 1.125rem;
     margin-bottom: 0.5rem;
     display: block;
   }
-  
+
   .score-inline {
     display: block;
     margin-left: 0;
     margin-bottom: 1rem;
     font-size: 1rem;
   }
-  
+
   .delete-btn {
     position: static;
     width: 100%;
@@ -277,7 +281,7 @@ div {
     margin-top: 0.5rem;
   }
 
-  .course-input{
+  .course-input {
     font-size: 12px;
   }
 }

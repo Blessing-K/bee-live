@@ -31,6 +31,11 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # env files (can opt-in for committing if needed)
+*.md
+!README.md
+!amplify/README.md
+LAMBDA_UPDATE_COURSE_FIX.py
+.env.local
 .env*
 
 # vercel

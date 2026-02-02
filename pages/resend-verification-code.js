@@ -1,37 +1,21 @@
 import { useState } from "react";
-import { signUp } from "aws-amplify/auth";
+import { resendSignUpCode } from "aws-amplify/auth";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { getAuthErrorMessage, logAuthError } from "../lib/authErrors";
 
-export default function Signup() {
-  const [username, setUsername] = useState("");
+export default function ResendVerificationCode() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const handleSignup = async (e) => {
+  const handleResend = async (e) => {
     e.preventDefault();
     setError("");
     setSuccess("");
     setIsLoading(true);
-
-    // Client-side validation
-    if (password.length < 8) {
-      setError("Password must be at least 8 characters long.");
-      setIsLoading(false);
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      setError("Passwords do not match.");
-      setIsLoading(false);
-      return;
-    }
 
     if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
       setError("Please enter a valid email address.");
@@ -40,30 +24,20 @@ export default function Signup() {
     }
 
     try {
-      await signUp({
-        username,
-        password,
-        options: {
-          userAttributes: {
-            email,
-          },
-        },
+      await resendSignUpCode({
+        username: email,
       });
 
       setSuccess(
-        `Account created successfully! A verification email has been sent to ${email}. Please check your email and click the verification link before logging in.`,
+        `Verification code sent to ${email}. Check your email and use the code to verify your account.`,
       );
-      setUsername("");
       setEmail("");
-      setPassword("");
-      setConfirmPassword("");
 
-      // Redirect to verify-email after 3 seconds
       setTimeout(() => {
         router.push("/verify-email");
       }, 3000);
     } catch (error) {
-      logAuthError(error, "Signup");
+      logAuthError(error, "Resend Verification Code");
       const userMessage = getAuthErrorMessage(error);
       setError(userMessage);
     } finally {
@@ -74,20 +48,17 @@ export default function Signup() {
   return (
     <div style={styles.pageContainer}>
       <div style={styles.formContainer}>
-        <h1 style={styles.title}>Create Account</h1>
+        <h1 style={styles.title}>Resend Verification Code</h1>
+
+        <p style={styles.instructionText}>
+          Enter your email address and we&apos;ll send you a new verification
+          code.
+        </p>
 
         {error && <div style={styles.errorText}>{error}</div>}
         {success && <div style={styles.successText}>{success}</div>}
 
-        <form onSubmit={handleSignup} style={styles.form}>
-          <input
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-            disabled={isLoading || success}
-            style={styles.input}
-          />
+        <form onSubmit={handleResend} style={styles.form}>
           <input
             type="email"
             placeholder="Email Address"
@@ -97,43 +68,18 @@ export default function Signup() {
             disabled={isLoading || success}
             style={styles.input}
           />
-          <input
-            type="password"
-            placeholder="Password (min 8 characters)"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            minLength={8}
-            disabled={isLoading || success}
-            style={styles.input}
-          />
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-            minLength={8}
-            disabled={isLoading || success}
-            style={styles.input}
-          />
           <button
             type="submit"
             disabled={isLoading || success}
             style={isLoading || success ? styles.buttonDisabled : styles.button}
           >
-            {isLoading
-              ? "Signing up..."
-              : success
-                ? "Redirecting..."
-                : "Sign Up"}
+            {isLoading ? "Sending..." : success ? "Code Sent!" : "Send Code"}
           </button>
         </form>
 
         <p style={styles.footerText}>
-          Already have an account?{" "}
           <Link href="/login" style={styles.link}>
-            Login
+            Back to Login
           </Link>
         </p>
       </div>
@@ -160,9 +106,16 @@ const styles = {
   },
   title: {
     textAlign: "center",
-    marginBottom: "24px",
+    marginBottom: "16px",
     color: "#1e293b",
     fontSize: "24px",
+  },
+  instructionText: {
+    textAlign: "center",
+    marginBottom: "24px",
+    color: "#64748b",
+    fontSize: "14px",
+    lineHeight: "1.6",
   },
   form: {
     display: "flex",
@@ -199,7 +152,7 @@ const styles = {
     cursor: "not-allowed",
   },
   errorText: {
-    color: "#ef4444",
+    color: "#dc2626",
     marginBottom: "16px",
     textAlign: "center",
     fontSize: "14px",
@@ -207,6 +160,7 @@ const styles = {
     padding: "12px",
     borderRadius: "6px",
     lineHeight: "1.5",
+    border: "1px solid #fca5a5",
   },
   successText: {
     color: "#16a34a",
@@ -217,10 +171,11 @@ const styles = {
     padding: "12px",
     borderRadius: "6px",
     lineHeight: "1.5",
+    border: "1px solid #86efac",
   },
   footerText: {
     textAlign: "center",
-    marginTop: "16px",
+    marginTop: "20px",
     color: "#64748b",
   },
   link: {
