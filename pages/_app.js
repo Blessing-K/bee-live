@@ -28,6 +28,20 @@ export default function App({ Component, pageProps }) {
     checkAuth();
   }, []);
 
+  // Re-check auth on route changes (needed for login/logout redirects)
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        await getCurrentUser();
+        setAuthState(true);
+      } catch (err) {
+        setAuthState(false);
+      }
+    };
+
+    checkAuth();
+  }, [router.pathname]);
+
   // Still checking auth
   if (authState === null) {
     return null;

@@ -16,18 +16,6 @@ export default function Login() {
   const [retryCount, setRetryCount] = useState(0);
   const router = useRouter();
 
-  useEffect(() => {
-    async function checkAuth() {
-      try {
-        await getCurrentUser();
-        router.push("/dashboard");
-      } catch (err) {
-        // User is not authenticated, stay on login page
-      }
-    }
-    checkAuth();
-  }, [router]);
-
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
@@ -35,15 +23,6 @@ export default function Login() {
     setRetryCount(0);
 
     try {
-      // Check if already authenticated
-      try {
-        await getCurrentUser();
-        router.push("/dashboard");
-        return;
-      } catch (notAuthed) {
-        // Expected - user is not authenticated yet
-      }
-
       // Validate input
       if (!username.trim()) {
         setError("Please enter your username.");
@@ -63,7 +42,8 @@ export default function Login() {
       });
 
       if (user) {
-        router.push("/dashboard");
+        // Don't set isLoading to false here - let redirect happen
+        await router.push("/dashboard");
       }
     } catch (error) {
       logAuthError(error, "Login");
@@ -74,7 +54,6 @@ export default function Login() {
       if (isRetryableError(error)) {
         setRetryCount((prev) => prev + 1);
       }
-    } finally {
       setIsLoading(false);
     }
   };
