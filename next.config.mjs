@@ -1,9 +1,9 @@
 // next.config.mjs
 const nextConfig = {
-  serverExternalPackages: ['openai'], // Critical for OpenAI
+  serverExternalPackages: ["openai"], // Critical for OpenAI
   outputFileTracingIncludes: {
-    '/api/generateAdvice': ['./node_modules/openai/**/*']
-  }
+    "/api/generateAdvice": ["./node_modules/openai/**/*"],
+  },
 };
 
 export default nextConfig;
