@@ -78,13 +78,21 @@ export default function Goals() {
       if (data.success) {
         setGoals(data.goals || []);
       } else {
-        // Handle specific errors with helpful messages
-        if (data.tableName) {
-          setError(
-            `⚠️ DynamoDB Setup Required: ${data.message}\n\nTo enable persistent goals:\n1. Create DynamoDB table: ${data.tableName}\n2. See ${data.instructions}\n\nFor now, goals will not persist.`,
+        const message = data.message || data.error || "Failed to load goals";
+
+        // Treat missing DynamoDB/credentials as non-blocking for the UI
+        if (
+          data.tableName ||
+          data.error === "AWS credentials not configured" ||
+          /credentials/i.test(message)
+        ) {
+          setGoals([]);
+          setError(null);
+          setSuccess(
+            "Goals storage isn't configured yet. You can still browse the page, but goals won't persist.",
           );
         } else {
-          setError(data.message || data.error || "Failed to load goals");
+          setError(message);
         }
       }
     } catch (err) {
