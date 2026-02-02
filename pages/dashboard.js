@@ -57,10 +57,14 @@ export default function Dashboard() {
       setAuthChecked(true);
     };
     checkAuth();
-  }, [router]);
+  }, [router, loadUserCourses]);
 
   if (!authChecked) {
-    return null;
+    return (
+      <Layout>
+        <div className="page-loading-shell" />
+      </Layout>
+    );
   }
 
   const weakCourses = courses
@@ -84,7 +88,7 @@ export default function Dashboard() {
             <h1>
               {isFirstLogin ? "Welcome" : "Welcome back"}, {username}! 👋
             </h1>
-            <p>Here's your academic overview</p>
+            <p>Here&apos;s your academic overview</p>
           </div>
         </div>
 
