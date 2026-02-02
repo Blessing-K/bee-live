@@ -33,9 +33,7 @@ export default function CourseForm({ userId }) {
       <button type="submit" className="btn-primary course-submit">
         + Add Course
       </button>
-      {loading && (
-        <p className="course-loading">Generating smart advice...</p>
-      )}
+      {loading && <p className="course-loading">Generating smart advice...</p>}
     </form>
   );
 }
