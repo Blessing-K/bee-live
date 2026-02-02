@@ -206,7 +206,8 @@ export default function Sidebar() {
           display: flex !important;
           flex-direction: row !important;
           align-items: center !important;
-          gap: 16px;
+          justify-content: center;
+          gap: 10px;
           padding: 16px 20px;
           border-radius: 12px;
           background: transparent;
@@ -219,12 +220,13 @@ export default function Sidebar() {
         }
 
         .logout-btn .nav-icon {
-          font-size: 26px;
+          font-size: 22px;
         }
 
         .logout-btn .nav-label {
           font-size: 17px;
           font-weight: 600;
+          flex: 0 0 auto;
         }
 
         .logout-btn:hover {
@@ -239,15 +241,35 @@ export default function Sidebar() {
             width: 100%;
             height: auto;
             position: relative;
+            padding: var(--spacing-md) var(--spacing-md);
           }
 
           .sidebar-nav {
             flex-direction: row;
-            overflow-x: auto;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: space-between;
+            padding: 0 var(--spacing-sm);
           }
 
           .nav-label {
-            display: none;
+            display: inline;
+            font-size: 14px;
+          }
+
+          .nav-item {
+            padding: 10px 12px;
+            font-size: 14px;
+            width: auto;
+            flex: 1 1 0;
+            justify-content: center !important;
+          }
+
+          .logout-btn {
+            padding: 10px 12px;
+            font-size: 14px;
+            gap: 8px;
+            justify-content: center;
           }
         }
       `}</style>

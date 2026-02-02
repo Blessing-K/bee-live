@@ -13,18 +13,11 @@ export default function CourseCard({ course, userId, onDelete, onUpdate }) {
 
   return (
     <div className="course-card">
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "12px",
-        }}
-      >
+      <div className="course-card-header">
         <h3 className="course-title" style={{ margin: 0 }}>
           {course.courseName}
         </h3>
-        <div style={{ display: "flex", gap: "8px" }}>
+        <div className="course-card-actions">
           <button onClick={() => setIsEditing(!isEditing)} className="edit-btn">
             {isEditing ? "Cancel" : "Edit Score"}
           </button>
@@ -53,7 +46,7 @@ export default function CourseCard({ course, userId, onDelete, onUpdate }) {
           >
             Update Score (0-10):
           </label>
-          <div style={{ display: "flex", gap: "8px" }}>
+          <div className="course-card-edit-row">
             <input
               type="number"
               min="0"
@@ -115,6 +108,50 @@ export default function CourseCard({ course, userId, onDelete, onUpdate }) {
           border-radius: 6px;
           font-weight: 500;
           font-size: 13px;
+        }
+
+        .course-card-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 12px;
+          gap: 12px;
+        }
+
+        .course-card-actions {
+          display: flex;
+          gap: 8px;
+        }
+
+        .course-card-edit-row {
+          display: flex;
+          gap: 8px;
+          align-items: center;
+        }
+
+        @media (max-width: 768px) {
+          .course-card-header {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+
+          .course-card-actions {
+            width: 100%;
+            flex-direction: column;
+          }
+
+          .course-card-actions button {
+            width: 100%;
+          }
+
+          .course-card-edit-row {
+            flex-direction: column;
+            align-items: stretch;
+          }
+
+          .course-card-edit-row button {
+            width: 100%;
+          }
         }
       `}</style>
     </div>

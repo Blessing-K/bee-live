@@ -1,14 +1,7 @@
 export default function DashboardCourseCard({ course }) {
   return (
     <div className="course-card">
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          marginBottom: "16px",
-        }}
-      >
+      <div className="course-card-header">
         <h3 className="course-title" style={{ margin: 0 }}>
           {course.courseName}
         </h3>
@@ -21,6 +14,23 @@ export default function DashboardCourseCard({ course }) {
         </h4>
         {renderAdvice(course.advice)}
       </div>
+
+      <style jsx>{`
+        .course-card-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 16px;
+          gap: 12px;
+        }
+
+        @media (max-width: 768px) {
+          .course-card-header {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+        }
+      `}</style>
     </div>
   );
 }

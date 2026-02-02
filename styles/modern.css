@@ -189,6 +189,28 @@ input[type="time"] {
   min-width: 200px;
 }
 
+.course-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.course-form .course-input {
+  flex: 1;
+  min-width: 180px;
+}
+
+.course-form .course-submit {
+  white-space: nowrap;
+}
+
+.course-loading {
+  margin-left: 10px;
+  color: var(--gray-500);
+}
+
 /* ============================================================ */
 /* Buttons */
 /* ============================================================ */
@@ -644,6 +666,79 @@ a:hover {
 /* ============================================================ */
 
 @media (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  .layout {
+    flex-direction: column;
+  }
+
+  .container {
+    padding: var(--spacing-md);
+  }
+
+  .card {
+    padding: var(--spacing-md);
+  }
+
+  .card-header,
+  .card-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+  }
+
+  .flex-between {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+  }
+
+  .alert {
+    flex-direction: column;
+  }
+
+  input[type="date"],
+  input[type="time"] {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .course-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .course-form .course-input {
+    min-width: 0;
+  }
+
+  .course-form .course-submit {
+    width: 100%;
+  }
+
+  .course-loading {
+    margin-left: 0;
+  }
+
+  .filter-controls {
+    width: 100%;
+  }
+
+  .filter-controls select {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .goal-form-actions {
+    flex-direction: column;
+  }
+
+  .goal-form-actions button {
+    width: 100%;
+  }
+
   .main {
     padding: var(--spacing-md);
   }

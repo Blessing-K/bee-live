@@ -15,7 +15,7 @@ export default function CourseForm({ userId }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "20px" }}>
+    <form onSubmit={handleSubmit} className="course-form">
       <input
         type="text"
         placeholder="Course Name"
@@ -30,10 +30,12 @@ export default function CourseForm({ userId }) {
         onChange={(e) => setScore(e.target.value)}
         className="course-input"
       />
-      <button type="submit" style={{ backgroundColor: "#3b82f6", color: "#fff" }}>
+      <button type="submit" className="btn-primary course-submit">
         + Add Course
       </button>
-      {loading && <p style={{ marginLeft: "10px", color: "#6b7280" }}>Generating smart advice...</p>}
+      {loading && (
+        <p className="course-loading">Generating smart advice...</p>
+      )}
     </form>
   );
 }

@@ -378,7 +378,7 @@ export default function Goals() {
           style={{ flexWrap: "wrap", gap: "var(--spacing-md)" }}
         >
           <div
-            className="flex"
+            className="flex filter-controls"
             style={{ gap: "var(--spacing-sm)", flexWrap: "wrap" }}
           >
             <select
@@ -569,6 +569,7 @@ export default function Goals() {
 
                 {/* Buttons */}
                 <div
+                  className="goal-form-actions"
                   style={{
                     display: "flex",
                     gap: "var(--spacing-md)",
