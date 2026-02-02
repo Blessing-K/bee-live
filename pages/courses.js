@@ -29,11 +29,7 @@ export default function Courses() {
   }, [router]);
 
   if (!authChecked) {
-    return (
-      <Layout>
-        <div className="page-loading-shell" />
-      </Layout>
-    );
+    return null;
   }
 
   const sortedCourses = [...courses].sort((a, b) => {

@@ -60,11 +60,7 @@ export default function Dashboard() {
   }, [router, loadUserCourses]);
 
   if (!authChecked) {
-    return (
-      <Layout>
-        <div className="page-loading-shell" />
-      </Layout>
-    );
+    return null;
   }
 
   const weakCourses = courses
