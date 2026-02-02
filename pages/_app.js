@@ -34,7 +34,8 @@ export default function App({ Component, pageProps }) {
   }
 
   const isProtectedRoute = PROTECTED_ROUTES.includes(router.pathname);
-  const isAuthRoute = router.pathname === "/login" || router.pathname === "/signup";
+  const isAuthRoute =
+    router.pathname === "/login" || router.pathname === "/signup";
 
   // User is NOT authenticated
   if (authState === false) {
