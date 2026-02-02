@@ -4,13 +4,10 @@ import CourseForm from "../components/CourseForm";
 import { useCourses } from "../context/CoursesContext";
 import CourseCard from "../components/CourseCard";
 import Layout from "@/components/Layout";
-import { useRouter } from "next/router";
 
 export default function Courses() {
-  const router = useRouter();
   const { courses, addCourse, deleteCourse, updateCourse } = useCourses();
   const [userId, setUserId] = useState("");
-  const [authChecked, setAuthChecked] = useState(false);
 
   useEffect(() => {
     const fetchUserId = async () => {
@@ -20,17 +17,10 @@ export default function Courses() {
         setUserId(user.userId || user.username);
       } catch (error) {
         console.error("Auth error:", error);
-        router.replace("/login");
-      } finally {
-        setAuthChecked(true);
       }
     };
     fetchUserId();
-  }, [router]);
-
-  if (!authChecked) {
-    return null;
-  }
+  }, []);
 
   const sortedCourses = [...courses].sort((a, b) => {
     const scoreA = a.score || 0;

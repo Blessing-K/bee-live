@@ -11,12 +11,10 @@ export default function Dashboard() {
   const { courses, loadUserCourses } = useCourses();
   const [username, setUsername] = useState("");
   const [userId, setUserId] = useState("");
-  const [authChecked, setAuthChecked] = useState(false);
-  const [activeTab, setActiveTab] = useState("dashboard");
   const [isFirstLogin, setIsFirstLogin] = useState(false);
 
   useEffect(() => {
-    const checkAuth = async () => {
+    const loadData = async () => {
       try {
         const user = await getCurrentUser();
         const session = await fetchAuthSession({ forceRefresh: true });
@@ -49,19 +47,10 @@ export default function Dashboard() {
         }
       } catch (error) {
         console.error("Auth check error:", error?.message || error);
-        // Redirect to login on any auth error
-        setAuthChecked(true);
-        router.replace("/login");
-        return;
       }
-      setAuthChecked(true);
     };
-    checkAuth();
-  }, [router, loadUserCourses]);
-
-  if (!authChecked) {
-    return null;
-  }
+    loadData();
+  }, [loadUserCourses]);
 
   const weakCourses = courses
     .filter((course) => (course.score || 0) <= 3)
