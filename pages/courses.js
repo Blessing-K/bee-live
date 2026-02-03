@@ -59,7 +59,10 @@ export default function Courses() {
 
         {/* Statistics */}
         {showInitialLoading ? (
-          <div className="card text-center" style={{ padding: "var(--spacing-lg)" }}>
+          <div
+            className="card text-center"
+            style={{ padding: "var(--spacing-lg)" }}
+          >
             <p style={{ margin: 0 }}>Loading courses...</p>
           </div>
         ) : (
@@ -92,7 +95,10 @@ export default function Courses() {
         {showInitialLoading ? (
           <div
             className="card text-center"
-            style={{ padding: "var(--spacing-2xl)", marginTop: "var(--spacing-xl)" }}
+            style={{
+              padding: "var(--spacing-2xl)",
+              marginTop: "var(--spacing-xl)",
+            }}
           >
             <p style={{ margin: 0 }}>Loading courses...</p>
           </div>

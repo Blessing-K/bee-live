@@ -14,74 +14,78 @@ export default function CourseCard({ course, userId, onDelete, onUpdate }) {
   return (
     <div className="course-card">
       <div className="course-card-wrapper">
-      <div className="course-card-header">
-        <h3 className="course-title" style={{ margin: 0 }}>
-          {course.courseName}
-        </h3>
-        <span className="score-badge">Score: {course.score}/10</span>
-      </div>
-
-      {isEditing && (
-        <div
-          style={{
-            marginBottom: "16px",
-            padding: "12px",
-            background: "#f8fafc",
-            borderRadius: "8px",
-          }}
-        >
-          <label
-            style={{ display: "block", marginBottom: "8px", fontWeight: "600" }}
-          >
-            Update Score (0-10):
-          </label>
-          <div className="course-card-edit-row">
-            <input
-              type="number"
-              min="0"
-              max="10"
-              value={newScore}
-              onChange={(e) => setNewScore(e.target.value)}
-              style={{
-                flex: 1,
-                padding: "8px 12px",
-                border: "2px solid #3b82f6",
-                borderRadius: "6px",
-                fontSize: "16px",
-              }}
-            />
-            <button
-              onClick={handleUpdate}
-              className="btn-primary"
-              style={{ padding: "8px 16px" }}
-            >
-              Save
-            </button>
-          </div>
+        <div className="course-card-header">
+          <h3 className="course-title" style={{ margin: 0 }}>
+            {course.courseName}
+          </h3>
+          <span className="score-badge">Score: {course.score}/10</span>
         </div>
-      )}
 
-      <div className="course-card-content">
-        <h4 style={{ fontWeight: "bold", marginBottom: "8px" }}>
-          📚 Study Tips:
-        </h4>
-        {renderAdvice(course.advice)}
-      </div>
-
-      <div className="course-card-actions">
-        <button onClick={() => setIsEditing(!isEditing)} className="edit-btn">
-          {isEditing ? "Cancel" : "Edit Score"}
-        </button>
-        {onDelete && (
-          <button
-            onClick={() => onDelete(userId, course.courseName)}
-            className="delete-btn"
+        {isEditing && (
+          <div
+            style={{
+              marginBottom: "16px",
+              padding: "12px",
+              background: "#f8fafc",
+              borderRadius: "8px",
+            }}
           >
-            Delete
-          </button>
+            <label
+              style={{
+                display: "block",
+                marginBottom: "8px",
+                fontWeight: "600",
+              }}
+            >
+              Update Score (0-10):
+            </label>
+            <div className="course-card-edit-row">
+              <input
+                type="number"
+                min="0"
+                max="10"
+                value={newScore}
+                onChange={(e) => setNewScore(e.target.value)}
+                style={{
+                  flex: 1,
+                  padding: "8px 12px",
+                  border: "2px solid #3b82f6",
+                  borderRadius: "6px",
+                  fontSize: "16px",
+                }}
+              />
+              <button
+                onClick={handleUpdate}
+                className="btn-primary"
+                style={{ padding: "8px 16px" }}
+              >
+                Save
+              </button>
+            </div>
+          </div>
         )}
+
+        <div className="course-card-content">
+          <h4 style={{ fontWeight: "bold", marginBottom: "8px" }}>
+            📚 Study Tips:
+          </h4>
+          {renderAdvice(course.advice)}
+        </div>
+
+        <div className="course-card-actions">
+          <button onClick={() => setIsEditing(!isEditing)} className="edit-btn">
+            {isEditing ? "Cancel" : "Edit Score"}
+          </button>
+          {onDelete && (
+            <button
+              onClick={() => onDelete(userId, course.courseName)}
+              className="delete-btn"
+            >
+              Delete
+            </button>
+          )}
+        </div>
       </div>
-    </div>
 
       <style jsx>{`
         .course-card-wrapper {

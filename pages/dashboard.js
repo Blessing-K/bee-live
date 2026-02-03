@@ -93,7 +93,10 @@ export default function Dashboard() {
 
         {/* Statistics Cards */}
         {showInitialLoading ? (
-          <div className="card text-center" style={{ padding: "var(--spacing-xl)" }}>
+          <div
+            className="card text-center"
+            style={{ padding: "var(--spacing-xl)" }}
+          >
             <p style={{ margin: 0 }}>Loading courses...</p>
           </div>
         ) : (

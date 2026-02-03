@@ -8,37 +8,40 @@ export function CoursesProvider({ children }) {
   const [loadingCourses, setLoadingCourses] = useState(true);
   const [hasLoadedCourses, setHasLoadedCourses] = useState(false);
 
-  const loadUserCourses = useCallback(async (userId) => {
-    if (!hasLoadedCourses) {
-      setLoadingCourses(true);
-    }
-    try {
-      const response = await fetch("/api/getCourses", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId }),
-      });
-
-      if (!response.ok) {
-        console.error(`API error: ${response.status} ${response.statusText}`);
-        return;
+  const loadUserCourses = useCallback(
+    async (userId) => {
+      if (!hasLoadedCourses) {
+        setLoadingCourses(true);
       }
+      try {
+        const response = await fetch("/api/getCourses", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId }),
+        });
 
-      const data = await response.json();
+        if (!response.ok) {
+          console.error(`API error: ${response.status} ${response.statusText}`);
+          return;
+        }
 
-      if (Array.isArray(data)) {
-        setCourses(data);
-      } else if (data && typeof data === "object") {
-        console.warn("Expected array of courses, got object:", data);
-        setCourses([]);
+        const data = await response.json();
+
+        if (Array.isArray(data)) {
+          setCourses(data);
+        } else if (data && typeof data === "object") {
+          console.warn("Expected array of courses, got object:", data);
+          setCourses([]);
+        }
+      } catch (err) {
+        console.error("Error loading user courses:", err.message);
+      } finally {
+        setLoadingCourses(false);
+        setHasLoadedCourses(true);
       }
-    } catch (err) {
-      console.error("Error loading user courses:", err.message);
-    } finally {
-      setLoadingCourses(false);
-      setHasLoadedCourses(true);
-    }
-  }, [hasLoadedCourses]);
+    },
+    [hasLoadedCourses],
+  );
 
   const addCourse = useCallback(async (userId, courseName, score) => {
     setLoading(true);
