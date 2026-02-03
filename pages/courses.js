@@ -6,7 +6,14 @@ import CourseCard from "../components/CourseCard";
 import Layout from "@/components/Layout";
 
 export default function Courses() {
-  const { courses, addCourse, deleteCourse, updateCourse } = useCourses();
+  const {
+    courses,
+    addCourse,
+    deleteCourse,
+    updateCourse,
+    loadingCourses,
+    hasLoadedCourses,
+  } = useCourses();
   const [userId, setUserId] = useState("");
 
   useEffect(() => {
@@ -28,6 +35,19 @@ export default function Courses() {
     return scoreA - scoreB;
   });
 
+  const showInitialLoading = loadingCourses && !hasLoadedCourses;
+
+  if (showInitialLoading) {
+    return (
+      <Layout>
+        <div className="page-header text-center">
+          <div className="animate-spin">⏳</div>
+          <p>Loading your courses...</p>
+        </div>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
       <div className="modern-courses-page">
@@ -38,24 +58,30 @@ export default function Courses() {
         </div>
 
         {/* Statistics */}
-        <div className="course-stats">
-          <div className="stat-badge">
-            <span className="stat-number">{courses.length}</span>
-            <span className="stat-text">Total Courses</span>
+        {showInitialLoading ? (
+          <div className="card text-center" style={{ padding: "var(--spacing-lg)" }}>
+            <p style={{ margin: 0 }}>Loading courses...</p>
           </div>
-          <div className="stat-badge">
-            <span className="stat-number">
-              {sortedCourses.filter((c) => (c.score || 0) >= 7).length}
-            </span>
-            <span className="stat-text">Excelling</span>
+        ) : (
+          <div className="course-stats">
+            <div className="stat-badge">
+              <span className="stat-number">{courses.length}</span>
+              <span className="stat-text">Total Courses</span>
+            </div>
+            <div className="stat-badge">
+              <span className="stat-number">
+                {sortedCourses.filter((c) => (c.score || 0) >= 7).length}
+              </span>
+              <span className="stat-text">Excelling</span>
+            </div>
+            <div className="stat-badge">
+              <span className="stat-number">
+                {sortedCourses.filter((c) => (c.score || 0) <= 3).length}
+              </span>
+              <span className="stat-text">Need Focus</span>
+            </div>
           </div>
-          <div className="stat-badge">
-            <span className="stat-number">
-              {sortedCourses.filter((c) => (c.score || 0) <= 3).length}
-            </span>
-            <span className="stat-text">Need Focus</span>
-          </div>
-        </div>
+        )}
 
         {/* Add Course Form */}
         <div className="add-course-section">
@@ -63,7 +89,14 @@ export default function Courses() {
         </div>
 
         {/* Courses Grid */}
-        {sortedCourses.length > 0 ? (
+        {showInitialLoading ? (
+          <div
+            className="card text-center"
+            style={{ padding: "var(--spacing-2xl)", marginTop: "var(--spacing-xl)" }}
+          >
+            <p style={{ margin: 0 }}>Loading courses...</p>
+          </div>
+        ) : sortedCourses.length > 0 ? (
           <div
             className="grid grid-2"
             style={{ marginTop: "var(--spacing-xl)" }}

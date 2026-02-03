@@ -5,8 +5,13 @@ const CoursesContext = createContext();
 export function CoursesProvider({ children }) {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [loadingCourses, setLoadingCourses] = useState(true);
+  const [hasLoadedCourses, setHasLoadedCourses] = useState(false);
 
   const loadUserCourses = useCallback(async (userId) => {
+    if (!hasLoadedCourses) {
+      setLoadingCourses(true);
+    }
     try {
       const response = await fetch("/api/getCourses", {
         method: "POST",
@@ -29,8 +34,11 @@ export function CoursesProvider({ children }) {
       }
     } catch (err) {
       console.error("Error loading user courses:", err.message);
+    } finally {
+      setLoadingCourses(false);
+      setHasLoadedCourses(true);
     }
-  }, []);
+  }, [hasLoadedCourses]);
 
   const addCourse = useCallback(async (userId, courseName, score) => {
     setLoading(true);
@@ -156,6 +164,8 @@ export function CoursesProvider({ children }) {
         deleteCourse,
         updateCourse,
         loading,
+        loadingCourses,
+        hasLoadedCourses,
         loadUserCourses,
       }}
     >

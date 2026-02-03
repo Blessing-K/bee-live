@@ -8,7 +8,8 @@ import Link from "next/link";
 
 export default function Dashboard() {
   const router = useRouter();
-  const { courses, loadUserCourses } = useCourses();
+  const { courses, loadUserCourses, loadingCourses, hasLoadedCourses } =
+    useCourses();
   const [username, setUsername] = useState("");
   const [userId, setUserId] = useState("");
   const [isFirstLogin, setIsFirstLogin] = useState(false);
@@ -64,6 +65,19 @@ export default function Dashboard() {
         ).toFixed(1)
       : 0;
 
+  const showInitialLoading = loadingCourses && !hasLoadedCourses;
+
+  if (showInitialLoading) {
+    return (
+      <Layout>
+        <div className="page-header text-center">
+          <div className="animate-spin">⏳</div>
+          <p>Loading your courses...</p>
+        </div>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
       <div className="modern-dashboard">
@@ -78,67 +92,77 @@ export default function Dashboard() {
         </div>
 
         {/* Statistics Cards */}
-        <div className="stats-grid">
-          <div className="stat-card">
-            <div
-              className="stat-icon"
-              style={{
-                background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-              }}
-            >
-              📚
-            </div>
-            <div className="stat-content">
-              <p className="stat-label">Total Courses</p>
-              <h2 className="stat-value">{courses.length}</h2>
-            </div>
+        {showInitialLoading ? (
+          <div className="card text-center" style={{ padding: "var(--spacing-xl)" }}>
+            <p style={{ margin: 0 }}>Loading courses...</p>
           </div>
+        ) : (
+          <div className="stats-grid">
+            <div className="stat-card">
+              <div
+                className="stat-icon"
+                style={{
+                  background:
+                    "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                }}
+              >
+                📚
+              </div>
+              <div className="stat-content">
+                <p className="stat-label">Total Courses</p>
+                <h2 className="stat-value">{courses.length}</h2>
+              </div>
+            </div>
 
-          <div className="stat-card">
-            <div
-              className="stat-icon"
-              style={{
-                background: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
-              }}
-            >
-              📊
+            <div className="stat-card">
+              <div
+                className="stat-icon"
+                style={{
+                  background:
+                    "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+                }}
+              >
+                📊
+              </div>
+              <div className="stat-content">
+                <p className="stat-label">Average Score</p>
+                <h2 className="stat-value">{averageScore}</h2>
+              </div>
             </div>
-            <div className="stat-content">
-              <p className="stat-label">Average Score</p>
-              <h2 className="stat-value">{averageScore}</h2>
-            </div>
-          </div>
 
-          <div className="stat-card">
-            <div
-              className="stat-icon"
-              style={{
-                background: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
-              }}
-            >
-              ⚡
+            <div className="stat-card">
+              <div
+                className="stat-icon"
+                style={{
+                  background:
+                    "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+                }}
+              >
+                ⚡
+              </div>
+              <div className="stat-content">
+                <p className="stat-label">Strong Courses</p>
+                <h2 className="stat-value">{strongCourses.length}</h2>
+              </div>
             </div>
-            <div className="stat-content">
-              <p className="stat-label">Strong Courses</p>
-              <h2 className="stat-value">{strongCourses.length}</h2>
-            </div>
-          </div>
 
-          <div className="stat-card">
-            <div
-              className="stat-icon"
-              style={{
-                background: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
-              }}
-            >
-              ⚠️
-            </div>
-            <div className="stat-content">
-              <p className="stat-label">Needs Attention</p>
-              <h2 className="stat-value">{weakCourses.length}</h2>
+            <div className="stat-card">
+              <div
+                className="stat-icon"
+                style={{
+                  background:
+                    "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
+                }}
+              >
+                ⚠️
+              </div>
+              <div className="stat-content">
+                <p className="stat-label">Needs Attention</p>
+                <h2 className="stat-value">{weakCourses.length}</h2>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Courses Needing Attention */}
         <div className="dashboard-section">
@@ -149,7 +173,14 @@ export default function Dashboard() {
             </Link>
           </div>
 
-          {weakCourses.length > 0 ? (
+          {showInitialLoading ? (
+            <div
+              className="card text-center"
+              style={{ padding: "var(--spacing-xl)" }}
+            >
+              <p style={{ margin: 0 }}>Loading courses...</p>
+            </div>
+          ) : weakCourses.length > 0 ? (
             <div className="grid grid-3">
               {weakCourses.slice(0, 3).map((course, index) => (
                 <DashboardCourseCard key={index} course={course} />
